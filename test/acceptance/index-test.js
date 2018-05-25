@@ -16,7 +16,12 @@ describe('Acceptance | index', function() {
     let entryPoint = resolve.sync('ember-cli', { basedir: process.cwd() });
     let bin = path.resolve(entryPoint, '../../../bin/ember');
 
-    let { status } = spawnSync('node', [bin, 'test'], { stdio: 'inherit' });
+    let { status } = spawnSync('node', [bin, 'test'], {
+      stdio: 'inherit',
+      env: {
+        EMBER_CLI_PACKAGER: 'true'
+      }
+    });
 
     expect(status).to.equal(0);
   });

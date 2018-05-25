@@ -7,6 +7,28 @@ module.exports = function(defaults) {
     // Add options here
   });
 
+  app.package = function _package(fullTree) {
+    let javascriptTree = this._defaultPackager.packageJavascript(fullTree);
+    let stylesTree = this._defaultPackager.packageStyles(fullTree);
+    let appIndex = this._defaultPackager.processIndex(fullTree);
+    let additionalAssets = this._defaultPackager.importAdditionalAssets(fullTree);
+    let publicTree = this._defaultPackager.packagePublic(fullTree);
+
+    let sourceTrees = [
+      appIndex,
+      javascriptTree,
+      stylesTree,
+      additionalAssets,
+      publicTree
+    ].filter(Boolean);
+
+    if (this.tests) {
+      sourceTrees.push(this._defaultPackager.packageTests(fullTree));
+    }
+
+    return sourceTrees;
+  };
+
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //
