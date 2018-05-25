@@ -1,15 +1,17 @@
 'use strict';
 
 const { expect } = require('chai');
-const { spawnSync } = require('child_process');
+const { execSync, spawnSync } = require('child_process');
 const resolve = require('resolve');
 const path = require('path');
 
 describe('Acceptance | index', function() {
-  this.timeout(60000);
+  this.timeout(1200000);
 
   it('works', function() {
     process.chdir('test/fixtures/my-app');
+
+    execSync('npm install', { stdio: 'inherit' });
 
     let entryPoint = resolve.sync('ember-cli', { basedir: process.cwd() });
     let bin = path.resolve(entryPoint, '../../../bin/ember');
