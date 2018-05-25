@@ -1,6 +1,7 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const mergeTrees = require('broccoli-merge-trees');
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
@@ -12,25 +13,12 @@ module.exports = function(defaults) {
   app.package = function _package(fullTree) {
     process.send('package hook called');
 
-    let javascriptTree = this._defaultPackager.packageJavascript(fullTree);
-    let stylesTree = this._defaultPackager.packageStyles(fullTree);
-    let appIndex = this._defaultPackager.processIndex(fullTree);
-    let additionalAssets = this._defaultPackager.importAdditionalAssets(fullTree);
-    let publicTree = this._defaultPackager.packagePublic(fullTree);
+    let sourceTrees = this._legacyPackager(fullTree);
 
-    let sourceTrees = [
-      appIndex,
-      javascriptTree,
-      stylesTree,
-      additionalAssets,
-      publicTree
-    ].filter(Boolean);
-
-    if (this.tests) {
-      sourceTrees.push(this._defaultPackager.packageTests(fullTree));
-    }
-
-    return sourceTrees;
+    return mergeTrees(sourceTrees, {
+      overwrite: true,
+      annotation: 'TreeMerger (_legacyPackager)',
+    });
   };
 
   // Use `app.import` to add additional libraries to the generated
