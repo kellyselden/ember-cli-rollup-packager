@@ -7,7 +7,11 @@ module.exports = function(defaults) {
     // Add options here
   });
 
+  process.send('pre package');
+
   app.package = function _package(fullTree) {
+    process.send('package hook called');
+
     let javascriptTree = this._defaultPackager.packageJavascript(fullTree);
     let stylesTree = this._defaultPackager.packageStyles(fullTree);
     let appIndex = this._defaultPackager.processIndex(fullTree);
