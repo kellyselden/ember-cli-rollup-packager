@@ -1,0 +1,22 @@
+{
+  "name": "ember-cli-rollup-packager",
+  "version": "0.0.0",
+  "description": "Rollup.js packager for Ember CLI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kellyselden/ember-cli-rollup-packager.git"
+  },
+  "keywords": [
+    "bundler"
+  ],
+  "author": "Kelly Selden",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kellyselden/ember-cli-rollup-packager/issues"
+  },
+  "homepage": "https://github.com/kellyselden/ember-cli-rollup-packager#readme"
+}
