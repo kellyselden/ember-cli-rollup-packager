@@ -2,9 +2,10 @@
   "name": "ember-cli-rollup-packager",
   "version": "0.0.0",
   "description": "Rollup.js packager for Ember CLI",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint .",
+    "test": "mocha \"test/!(fixtures)/**/*-test.js\""
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,20 @@
   "bugs": {
     "url": "https://github.com/kellyselden/ember-cli-rollup-packager/issues"
   },
-  "homepage": "https://github.com/kellyselden/ember-cli-rollup-packager#readme"
+  "homepage": "https://github.com/kellyselden/ember-cli-rollup-packager#readme",
+  "engines": {
+    "node": ">=6"
+  },
+  "files": [
+    "src"
+  ],
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "eslint-config-sane": "^0.6.0",
+    "eslint-plugin-mocha": "^5.0.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-prefer-let": "^1.0.1",
+    "mocha": "^5.2.0"
+  }
 }
