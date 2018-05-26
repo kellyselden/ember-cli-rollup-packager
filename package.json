@@ -26,14 +26,26 @@
   "files": [
     "src"
   ],
+  "dependencies": {
+    "broccoli-plugin": "^1.3.0",
+    "commondir": "^1.0.1",
+    "rollup": "kellyselden/rollup",
+    "rollup-plugin-amd": "^3.0.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "walk-sync": "^0.3.2"
+  },
   "devDependencies": {
+    "broccoli-test-helper": "^1.2.0",
     "chai": "^4.1.2",
+    "co": "^4.6.0",
     "eslint": "^4.19.1",
     "eslint-config-sane": "^0.6.0",
     "eslint-plugin-mocha": "^5.0.0",
     "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-prefer-let": "^1.0.1",
+    "eslint-plugin-prefer-let": "kellyselden/eslint-plugin-prefer-let#const-require",
     "mocha": "^5.2.0",
-    "resolve": "^1.7.1"
+    "resolve": "^1.7.1",
+    "symlink-or-copy": "^1.2.0",
+    "testdouble": "^3.8.1"
   }
 }
