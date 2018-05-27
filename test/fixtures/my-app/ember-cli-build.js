@@ -2,6 +2,7 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const mergeTrees = require('broccoli-merge-trees');
+const BroccoliDebug = require('broccoli-debug');
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
@@ -13,12 +14,16 @@ module.exports = function(defaults) {
   app.package = function _package(fullTree) {
     process.send('package hook called');
 
+    fullTree = new BroccoliDebug(fullTree, 'my-app');
+
     let sourceTrees = this._legacyPackager(fullTree);
 
-    return mergeTrees(sourceTrees, {
+    let tree = mergeTrees(sourceTrees, {
       overwrite: true,
       annotation: 'TreeMerger (_legacyPackager)',
     });
+
+    return tree;
   };
 
   // Use `app.import` to add additional libraries to the generated

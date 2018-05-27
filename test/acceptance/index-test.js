@@ -20,7 +20,9 @@ describe('Acceptance | index', function() {
     let ps = spawn('node', [relative, 'test'], {
       stdio: ['ipc', 'inherit', 'inherit'],
       env: Object.assign({
-        EMBER_CLI_PACKAGER: 'true'
+        EMBER_CLI_PACKAGER: 'true',
+        EMBER_CLI_DELAYED_TRANSPILATION: 'true',
+        BROCCOLI_DEBUG: 'my-app'
       }, process.env)
     });
 
