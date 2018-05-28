@@ -21,7 +21,7 @@
     "broccoli-debug": "^0.6.4",
     "broccoli-merge-trees": "^3.0.0",
     "ember-ajax": "^3.0.0",
-    "ember-cli": "ember-cli/ember-cli",
+    "ember-cli": "kellyselden/ember-cli#addon-package-fix",
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-dependency-checker": "^2.0.0",

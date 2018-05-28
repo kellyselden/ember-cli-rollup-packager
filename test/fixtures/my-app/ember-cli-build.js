@@ -11,10 +11,12 @@ module.exports = function(defaults) {
 
   process.send('pre package');
 
+  let debugTree = BroccoliDebug.buildDebugCallback('my-app');
+
   app.package = function _package(fullTree) {
     process.send('package hook called');
 
-    fullTree = new BroccoliDebug(fullTree, 'my-app');
+    fullTree = debugTree(fullTree, 'pre');
 
     let sourceTrees = this._legacyPackager(fullTree);
 
@@ -22,6 +24,8 @@ module.exports = function(defaults) {
       overwrite: true,
       annotation: 'TreeMerger (_legacyPackager)',
     });
+
+    tree = debugTree(tree, 'post');
 
     return tree;
   };

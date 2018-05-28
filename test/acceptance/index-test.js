@@ -6,7 +6,7 @@ const resolve = require('resolve');
 const path = require('path');
 
 describe('Acceptance | index', function() {
-  this.timeout(1200000);
+  this.timeout(120000);
 
   it('works', function() {
     process.chdir('test/fixtures/my-app');
@@ -22,7 +22,7 @@ describe('Acceptance | index', function() {
       env: Object.assign({
         EMBER_CLI_PACKAGER: 'true',
         EMBER_CLI_DELAYED_TRANSPILATION: 'true',
-        BROCCOLI_DEBUG: 'my-app'
+        BROCCOLI_DEBUG: 'my-app:*'
       }, process.env)
     });
 
