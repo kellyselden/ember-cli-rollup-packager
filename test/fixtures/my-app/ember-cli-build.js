@@ -3,6 +3,7 @@
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const mergeTrees = require('broccoli-merge-trees');
 const BroccoliDebug = require('broccoli-debug');
+const rollupPackager = require('../../../src');
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
@@ -17,6 +18,10 @@ module.exports = function(defaults) {
     process.send('package hook called');
 
     fullTree = debugTree(fullTree, 'pre');
+
+    fullTree = rollupPackager(fullTree);
+
+    fullTree = debugTree(fullTree, 'rollup');
 
     let sourceTrees = this._legacyPackager(fullTree);
 
