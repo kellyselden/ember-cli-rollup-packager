@@ -19,7 +19,7 @@ module.exports = function(defaults) {
 
     fullTree = debugTree(fullTree, 'pre');
 
-    fullTree = rollupPackager(fullTree);
+    fullTree = rollupPackager.call(this, fullTree);
 
     fullTree = debugTree(fullTree, 'rollup');
 
