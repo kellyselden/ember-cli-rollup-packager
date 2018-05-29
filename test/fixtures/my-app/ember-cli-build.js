@@ -3,7 +3,7 @@
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const mergeTrees = require('broccoli-merge-trees');
 const BroccoliDebug = require('broccoli-debug');
-const rollupPackager = require('../../../src');
+const rollupPackager = require('ember-cli-rollup-packager');
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
