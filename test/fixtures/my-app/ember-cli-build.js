@@ -10,12 +10,16 @@ module.exports = function(defaults) {
     // Add options here
   });
 
-  process.send('pre package');
+  if (process.send) {
+    process.send('pre package');
+  }
 
   let debugTree = BroccoliDebug.buildDebugCallback('my-app');
 
   app.package = function _package(fullTree) {
-    process.send('package hook called');
+    if (process.send) {
+      process.send('package hook called');
+    }
 
     fullTree = debugTree(fullTree, 'pre');
 

@@ -1,0 +1,23 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "cwd": "${workspaceFolder}/test/fixtures/my-app",
+      "program": "${workspaceFolder}/test/fixtures/my-app/node_modules/ember-cli/bin/ember",
+      "args": [
+        "test"
+      ],
+      "env": {
+        "EMBER_CLI_PACKAGER": "true",
+        "EMBER_CLI_DELAYED_TRANSPILATION": "true",
+        "BROCCOLI_DEBUG": "my-app:*,rollup-packager:*"
+      }
+    }
+  ]
+}

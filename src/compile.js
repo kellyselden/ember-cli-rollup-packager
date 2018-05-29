@@ -178,7 +178,7 @@ function moveNodeModules(
       importer = tryMove(importer, nodeModulesDest, nodeModulesSrc) || importer;
 
       return plugins.reduce((promise, plugin) => {
-        let resolveId = plugin.resolveId;
+        let resolveId = plugin.originalResolveId;
         return promise.then(id => {
           if (id) {
             return id;
@@ -362,6 +362,33 @@ class Compile extends BroccoliPlugin {
 
     let foundModules = new Set();
 
+    let appAndAddonsPlugin = resolvePlugin({
+      customResolveOptions: {
+        // package: { main: 'index.js' },
+        moduleDirectory: [
+          'addon-tree-output',
+          'app-tree-output' // for self references (ie 'my-app/utils/foo')
+        ]
+      }
+    });
+
+    let nodeModulesPlugin = useNodeModules ? resolvePlugin({
+      jsnext: true,
+      customResolveOptions: {
+        basedir: projectRoot
+      }
+    }) : {};
+
+    let plugins = [
+      appAndAddonsPlugin,
+      nodeModulesPlugin
+    ];
+
+    for (let plugin of plugins) {
+      plugin.originalResolveId = plugin.resolveId;
+      delete plugin.resolveId;
+    }
+
     return rollup.rollup({
       input: entryPoints,
       plugins: [
@@ -389,34 +416,15 @@ class Compile extends BroccoliPlugin {
         //     }
         //   },
         // },
-        (function() {
-          let plugins = [
-            resolvePlugin({
-              customResolveOptions: {
-                // package: { main: 'index.js' },
-                moduleDirectory: [
-                  'addon-tree-output',
-                  'app-tree-output' // for self references (ie 'my-app/utils/foo')
-                ]
-              }
-            }),
-            // es6 node_modules
-            useNodeModules ? resolvePlugin({
-              jsnext: true,
-              customResolveOptions: {
-                basedir: projectRoot
-              }
-            }) : {}
-          ];
-
-          return moveNodeModules(
-            nodeModulesSrc,
-            nodeModulesDest,
-            plugins,
-            config,
-            foundModules
-          );
-        })(),
+        appAndAddonsPlugin,
+        nodeModulesPlugin,
+        moveNodeModules(
+          nodeModulesSrc,
+          nodeModulesDest,
+          plugins,
+          config,
+          foundModules
+        ),
         {
           load(id) {
             id = tryMove(id, nodeModulesDest, nodeModulesSrc);
