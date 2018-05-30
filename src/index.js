@@ -45,8 +45,8 @@ module.exports = function rollupPackager(tree, options = {}) {
     projectRoot: this.project.root,
     useNodeModules: options.useNodeModules,
     annotation: 'Compile',
-    missingExportCallback(exportName, importingModule, importedModule) {
-      this.ui.writeLine(`${importingModule} cannot find '${exportName}' in ${importedModule}`);
+    missingExportCallback: (exportName, importingModule, importedModule) => {
+      this.project.ui.writeWarnLine(`${importingModule} cannot find '${exportName}' in ${importedModule}`);
     }
   });
 
