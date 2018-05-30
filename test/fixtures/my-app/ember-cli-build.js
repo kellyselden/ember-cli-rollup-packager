@@ -25,18 +25,9 @@ module.exports = function(defaults) {
 
     fullTree = rollupPackager.call(this, fullTree);
 
-    fullTree = debugTree(fullTree, 'rollup');
+    fullTree = debugTree(fullTree, 'post');
 
-    let sourceTrees = this._legacyPackager(fullTree);
-
-    let tree = mergeTrees(sourceTrees, {
-      overwrite: true,
-      annotation: 'TreeMerger (_legacyPackager)',
-    });
-
-    tree = debugTree(tree, 'post');
-
-    return tree;
+    return fullTree;
   };
 
   // Use `app.import` to add additional libraries to the generated

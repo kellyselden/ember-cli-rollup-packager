@@ -90,5 +90,14 @@ module.exports = function rollupPackager(tree, options = {}) {
     amdModules
   ]);
 
+  tree = debugTree(tree, 'rollup');
+
+  let sourceTrees = this._legacyPackager(tree);
+
+  tree = mergeTrees(sourceTrees, {
+    overwrite: true,
+    annotation: 'TreeMerger (_legacyPackager)',
+  });
+
   return tree;
 };
