@@ -96,7 +96,7 @@ module.exports = function rollupPackager(tree, options = {}) {
 
   tree = mergeTrees(sourceTrees, {
     overwrite: true,
-    annotation: 'TreeMerger (_legacyPackager)',
+    annotation: 'TreeMerger (_legacyPackager)'
   });
 
   return tree;
