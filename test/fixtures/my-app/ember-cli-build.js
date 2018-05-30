@@ -23,7 +23,9 @@ module.exports = function(defaults) {
 
     fullTree = debugTree(fullTree, 'pre');
 
-    fullTree = rollupPackager.call(this, fullTree);
+    fullTree = rollupPackager.call(this, fullTree, {
+      useNodeModules: true
+    });
 
     fullTree = debugTree(fullTree, 'post');
 

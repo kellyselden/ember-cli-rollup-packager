@@ -75,6 +75,10 @@ module.exports = function rollupPackager(tree, options = {}) {
     annotation: 'Funnel: aliases'
   });
 
+  // this.import('vendor/aliases.js');
+
+  nodeModules = this._compileAddonTree(nodeModules);
+
   nodeModules = new Funnel(nodeModules, {
     // destDir: 'node_modules',
     destDir: 'addon-tree-output', // for now
