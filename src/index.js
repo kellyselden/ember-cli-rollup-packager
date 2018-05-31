@@ -57,7 +57,8 @@ module.exports = function rollupPackager(tree, options = {}) {
   });
 
   addons = new Funnel(strippedAppAndAddons, {
-    include: ['addon-tree-output/**/*']
+    srcDir: 'app-tree-output',
+    destDir: 'app-tree-output'
   });
 
   let nodeModules = new Funnel(strippedAppAndAddons, {
