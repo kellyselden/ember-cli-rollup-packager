@@ -56,10 +56,15 @@ function expand(id) {
   return ids;
 }
 
-function buildEntryPoint(appAndAddons, appDir, include) {
+function buildEntryPoint(appAndAddons, appDir, include, includeEntireAppTree) {
   const walkSync = require('walk-sync');
 
-  let entryPoints = include.map(i => path.join(appAndAddons, i));
+  let entryPoints;
+  if (includeEntireAppTree) {
+    entryPoints = [appDir];
+  } else {
+    entryPoints = include.map(i => path.join(appAndAddons, i));
+  }
 
   let autoInclude = appDirs;
   let emberData = true;
@@ -330,6 +335,7 @@ class Compile extends BroccoliPlugin {
     let projectRoot = options.projectRoot;
     let missingExportCallback = options.missingExportCallback || function() {};
     let include = options.include || [];
+    let includeEntireAppTree = options.includeEntireAppTree;
     let useNodeModules = options.useNodeModules;
 
     const rollup = require('rollup');
@@ -345,7 +351,12 @@ class Compile extends BroccoliPlugin {
 
     // amdFiles = amdFiles.map(file => file.replace(/^addon-tree-output\//, ''));
 
-    let entryPoints = buildEntryPoint(appAndAddons, appDir, include);
+    let entryPoints = buildEntryPoint(
+      appAndAddons,
+      appDir,
+      include,
+      includeEntireAppTree
+    );
 
     let nodeModulesSrc = path.join(projectRoot, 'node_modules');
     let nodeModulesDest = path.join(appAndAddons, 'node_modules');
