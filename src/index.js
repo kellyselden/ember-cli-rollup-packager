@@ -12,14 +12,14 @@ let debugTree = BroccoliDebug.buildDebugCallback('rollup-packager');
 module.exports = function rollupPackager(tree, options = {}) {
   let preservedTree = new Funnel(tree, {
     exclude: [
-      'addon-tree-output/**/*',
-      `${this.name}/**/*.js` // want to preserve index.html
+      'addon-tree-output/**/*.js',
+      `${this.name}/**/*.js`
     ]
   });
 
   let app = new Funnel(tree, {
-    srcDir: this.name,
-    destDir: `app-tree-output/${this.name}`
+    include: [`${this.name}/**/*.js`],
+    destDir: 'app-tree-output'
   });
 
   let addons = new Funnel(tree, {
