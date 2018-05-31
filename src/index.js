@@ -13,6 +13,7 @@ module.exports = function rollupPackager(tree, options = {}) {
   let preservedTree = new Funnel(tree, {
     exclude: [
       'addon-tree-output/**/*.js',
+      'addon-tree-output/**/*.hbs',
       `${this.name}/**/*.js`
     ]
   });
@@ -23,7 +24,10 @@ module.exports = function rollupPackager(tree, options = {}) {
   });
 
   let addons = new Funnel(tree, {
-    include: ['addon-tree-output/**/*']
+    include: [
+      'addon-tree-output/**/*.js',
+      'addon-tree-output/**/*.hbs'
+    ]
   });
 
   let amdModules = new AmdExcluder(addons, {
