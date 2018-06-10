@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@types/estree@0.0.39":
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
+
+"@types/node@*":
+  version "10.5.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.2.tgz#f19f05314d5421fe37e74153254201a7bf00a707"
+
 acorn-jsx@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-3.0.1.tgz#afdf9488fb1ecefc8348f6fb22f464e32a58b36b"
@@ -1578,9 +1586,12 @@ rollup-plugin-node-resolve@^3.3.0:
     is-module "^1.0.0"
     resolve "^1.1.6"
 
-rollup@kellyselden/rollup:
-  version "0.56.5"
-  resolved "https://codeload.github.com/kellyselden/rollup/tar.gz/1a9e0c9b27073e1d00e89ff887b64d91051f62bb"
+rollup@kellyselden/rollup#new-master:
+  version "0.61.2"
+  resolved "https://codeload.github.com/kellyselden/rollup/tar.gz/bc158495f6c350a75e596fac346ab01f165e28f1"
+  dependencies:
+    "@types/estree" "0.0.39"
+    "@types/node" "*"
 
 rsvp@^3.0.14, rsvp@^3.5.0:
   version "3.6.2"

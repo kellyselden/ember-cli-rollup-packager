@@ -346,7 +346,7 @@ class Compile extends BroccoliPlugin {
     let options = this.options;
     let appName = options.appName;
     let projectRoot = options.projectRoot;
-    let missingExportCallback = options.missingExportCallback || function() {};
+    // let missingExportCallback = options.missingExportCallback || function() {};
     let include = options.include || [];
     let includeEntireAppTree = options.includeEntireAppTree;
     let useNodeModules = options.useNodeModules;
@@ -467,17 +467,19 @@ class Compile extends BroccoliPlugin {
           //     return path.relative(destDir, id);
           //   }
           // },
-          missingExport(module, name, otherModule, start) {
-            missingExportCallback(name, module, otherModule, start);
-            return true;
-          }
+          // missingExport(module, name, otherModule, start) {
+          //   missingExportCallback(name, module, otherModule, start);
+          //   return true;
+          // }
         }
       ],
       external: shouldPreservePath,
       preserveSymlinks: true,
+      experimentalCodeSplitting: true,
       // experimentalDynamicImport: true,
-      experimentalPreserveModules: true
+      experimentalPreserveModules: true,
       // inputRelativeDir: appAndAddons,
+      shimMissingExports: true
     }).then(bundle => {
       let commonDir = getCommonDir(foundModules);
       let dir = rebaseAbsolute(appAndAddons, destDir, commonDir);
