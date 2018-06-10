@@ -9,8 +9,10 @@ install:
   - npm install -g npm@5
   - npm install
 
-test_script:
+before_test:
   - npm run lint
+
+test_script:
   - npm test
 
 cache:
