@@ -340,7 +340,7 @@ class Compile extends BroccoliPlugin {
 
     const rollup = require('rollup');
     const resolvePlugin = require('rollup-plugin-node-resolve');
-    const amd = require('rollup-plugin-amd');
+    // const amd = require('rollup-plugin-amd');
 
     let appDir = path.join(appAndAddons, 'app-tree-output', appName);
 
@@ -403,7 +403,7 @@ class Compile extends BroccoliPlugin {
     return rollup.rollup({
       input: entryPoints,
       plugins: [
-        amd(),
+        // amd(),
         // {
         //   name: 'hbs',
         //   transform(hbs, id) {
