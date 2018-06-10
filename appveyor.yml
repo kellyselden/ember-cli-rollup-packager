@@ -6,15 +6,16 @@ init:
 
 install:
   - ps: Install-Product node $env:nodejs_version
-  - yarn install --non-interactive
+  - npm install -g npm@5
+  - npm install
 
 before_test:
-  - yarn lint
+  - npm run lint
 
 test_script:
-  - yarn test
+  - npm test
 
 cache:
-  - "%LOCALAPPDATA%\\Yarn"
+  - node_modules -> package.json
 
 build: off
