@@ -44,6 +44,11 @@ const externalScopes = [
   '@glimmer'
 ];
 
+// if tree-shaking brings the bundle down from multiple modules
+// to one (highly unlikely), this is needed for the commondir
+// to still behave properly.
+const commondirFakeEntryPoint = 'fake-entry-point.js';
+
 const appSrc = 'app-tree-output';
 const addonSrc = 'addon-tree-output';
 const nodeModulesSrc = 'node_modules';
@@ -103,6 +108,20 @@ function buildEntryPoint(appAndAddons, appDir, include, includeEntireAppTree) {
   }, []);
 
   return [...new Set(entryPoints)];
+}
+
+function setUpFakeEntryPoint(entryPoints, appAndAddons) {
+  let filePath = path.join(appAndAddons, commondirFakeEntryPoint);
+
+  entryPoints.push(filePath);
+
+  fs.writeFileSync(filePath, 'export default 1');
+}
+
+function tearDownFakeEntryPoint(destDir) {
+  let filePath = path.join(destDir, commondirFakeEntryPoint);
+
+  fs.unlinkSync(filePath);
 }
 
 function buildConfigPaths(appDir, appName, projectRoot) {
@@ -372,6 +391,8 @@ class Compile extends BroccoliPlugin {
       includeEntireAppTree
     );
 
+    setUpFakeEntryPoint(entryPoints, appAndAddons);
+
     let _nodeModulesSrc = path.join(projectRoot, nodeModulesSrc);
     let _nodeModulesDest = path.join(appAndAddons, nodeModulesDest);
 
@@ -496,6 +517,8 @@ class Compile extends BroccoliPlugin {
         format: 'es',
         paths: rewriteImportPath
       });
+    }).then(() => {
+      tearDownFakeEntryPoint(destDir);
     });
   }
 }

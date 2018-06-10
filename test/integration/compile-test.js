@@ -737,8 +737,7 @@ describe('Integration | Compile', function() {
               'my-app': {
                 'app.js': `export { default } from 'my-addon/foo';\n`
               }
-            },
-            'foo.js': `export default 1;\n` // need a second file for commondir
+            }
           });
 
           amdModules.write({
@@ -749,19 +748,14 @@ describe('Integration | Compile', function() {
             }
           });
 
-          yield compile({
-            include: [
-              'foo.js'
-            ]
-          });
+          yield compile();
 
           expect(output.read()).to.deep.equal({
             'app-tree-output': {
               'my-app': {
                 'app.js': `export { default } from 'my-addon/addon';\n`
               }
-            },
-            'foo.js': `var foo = 1;\n\nexport default foo;\n`
+            }
           });
         }));
 
@@ -776,8 +770,7 @@ describe('Integration | Compile', function() {
               'my-app': {
                 'app.js': `export { default } from 'my-addon/foo';\n`
               }
-            },
-            'foo.js': `export default 1;\n` // need a second file for commondir
+            }
           });
 
           amdModules.write({
@@ -788,19 +781,14 @@ describe('Integration | Compile', function() {
             }
           });
 
-          yield compile({
-            include: [
-              'foo.js'
-            ]
-          });
+          yield compile();
 
           expect(output.read()).to.deep.equal({
             'app-tree-output': {
               'my-app': {
                 'app.js': `export { default } from 'my-addon';\n`
               }
-            },
-            'foo.js': `var foo = 1;\n\nexport default foo;\n`
+            }
           });
         }));
 
@@ -1113,23 +1101,17 @@ describe('Integration | Compile', function() {
               'my-app': {
                 'app.js': `export { default } from 'my-addon';\n`
               }
-            },
-            'foo.js': `export default 1;\n` // need a second file for commondir
+            }
           });
 
-          yield compile({
-            include: [
-              'foo.js'
-            ]
-          });
+          yield compile();
 
           expect(output.read()).to.deep.equal({
             'app-tree-output': {
               'my-app': {
                 'app.js': `export { default } from 'external';\n`
               }
-            },
-            'foo.js': `var foo = 1;\n\nexport default foo;\n`
+            }
           });
         }));
 
