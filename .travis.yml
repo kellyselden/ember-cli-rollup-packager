@@ -2,9 +2,8 @@ language: node_js
 node_js:
 - '6'
 cache:
-  directories:
-  - "$HOME/.npm"
-before_install:
-- npm install -g npm@6
+  yarn: true
+install:
+- yarn install --non-interactive
 before_script:
-- npm run lint
+- yarn lint
