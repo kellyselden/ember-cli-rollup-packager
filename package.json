@@ -34,7 +34,6 @@
     "commondir": "^1.0.1",
     "fs-extra": "^6.0.1",
     "rollup": "kellyselden/rollup",
-    "rollup-plugin-amd": "^3.0.0",
     "rollup-plugin-node-resolve": "^3.3.0",
     "walk-sync": "^0.3.2"
   },
