@@ -6,7 +6,7 @@ const resolve = require('resolve');
 const path = require('path');
 
 describe('Acceptance | index', function() {
-  this.timeout(120000);
+  this.timeout(300000);
 
   it('works', function() {
     process.chdir('test/fixtures/my-app');
