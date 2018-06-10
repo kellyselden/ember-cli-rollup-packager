@@ -11,7 +11,7 @@ describe('Acceptance | index', function() {
   it('works', function() {
     process.chdir('test/fixtures/my-app');
 
-    execSync('yarn install', { stdio: 'inherit' });
+    execSync('npm install', { stdio: 'inherit' });
 
     let entryPoint = resolve.sync('ember-cli', { basedir: process.cwd() });
     let bin = path.resolve(entryPoint, '../../../bin/ember');
