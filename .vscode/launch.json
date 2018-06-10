@@ -18,6 +18,21 @@
         "EMBER_CLI_DELAYED_TRANSPILATION": "true",
         "BROCCOLI_DEBUG": "my-app:*,rollup-packager:*"
       }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Mocha Tests",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "-u",
+        "tdd",
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceFolder}/test/!(fixtures)/**/*-test.js"
+      ],
+      "internalConsoleOptions": "openOnSessionStart"
     }
   ]
 }
