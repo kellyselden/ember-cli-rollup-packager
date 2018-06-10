@@ -48,6 +48,12 @@
     "loader.js": "^4.2.3",
     "lodash-es": "^4.17.10"
   },
+  "resolutions": {
+    "ember-resolver/babel-plugin-debug-macros": "kellyselden/babel-plugin-debug-macros",
+    "ember-cli-babel/babel-plugin-debug-macros": "kellyselden/babel-plugin-debug-macros",
+    "ember-data/@ember/ordered-set/ember-cli-babel/babel-plugin-debug-macros": "kellyselden/babel-plugin-debug-macros",
+    "ember-decorators/@ember-decorators/object/ember-compatibility-helpers/babel-plugin-debug-macros": "kellyselden/babel-plugin-debug-macros"
+  },
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"
   }
