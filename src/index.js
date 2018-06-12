@@ -50,7 +50,7 @@ module.exports = function rollupPackager(tree, options = {}) {
 
   let strippedAppAndAddons = new Compile([appAndAddons, amdModules], {
     appName: this.name,
-    include: options.include,
+    include: options.additionalEntryPoints,
     includeEntireAppTree: options.includeEntireAppTree,
     projectRoot: this.project.root,
     useNodeModules: options.useNodeModules,
