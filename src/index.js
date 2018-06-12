@@ -9,110 +9,112 @@ const BroccoliDebug = require('broccoli-debug');
 
 let debugTree = BroccoliDebug.buildDebugCallback('rollup-packager');
 
-module.exports = function rollupPackager(tree, options = {}) {
-  let preservedTree = new Funnel(tree, {
-    exclude: [
-      'addon-tree-output/**/*.js',
-      'addon-tree-output/**/*.hbs',
-      `${this.name}/**/*.js`,
-      `${this.name}/**/*.hbs`
-    ]
-  });
+module.exports = function _rollupPackager(options = {}) {
+  return function rollupPackager(tree) {
+    let preservedTree = new Funnel(tree, {
+      exclude: [
+        'addon-tree-output/**/*.js',
+        'addon-tree-output/**/*.hbs',
+        `${this.name}/**/*.js`,
+        `${this.name}/**/*.hbs`
+      ]
+    });
 
-  let app = new Funnel(tree, {
-    include: [
-      `${this.name}/**/*.js`,
-      `${this.name}/**/*.hbs`
-    ],
-    destDir: 'app-tree-output'
-  });
+    let app = new Funnel(tree, {
+      include: [
+        `${this.name}/**/*.js`,
+        `${this.name}/**/*.hbs`
+      ],
+      destDir: 'app-tree-output'
+    });
 
-  let addons = new Funnel(tree, {
-    include: [
-      'addon-tree-output/**/*.js',
-      'addon-tree-output/**/*.hbs'
-    ]
-  });
+    let addons = new Funnel(tree, {
+      include: [
+        'addon-tree-output/**/*.js',
+        'addon-tree-output/**/*.hbs'
+      ]
+    });
 
-  let amdModules = new AmdExcluder(addons, {
-    include: true
-  });
+    let amdModules = new AmdExcluder(addons, {
+      include: true
+    });
 
-  // addons = new AmdExcluder(addons, {
-  // });
+    // addons = new AmdExcluder(addons, {
+    // });
 
-  app = this._compileAddonTemplates(app);
-  addons = this._compileAddonTemplates(addons);
+    app = this._compileAddonTemplates(app);
+    addons = this._compileAddonTemplates(addons);
 
-  let appAndAddons = mergeTrees([app, addons]);
+    let appAndAddons = mergeTrees([app, addons]);
 
-  appAndAddons = debugTree(appAndAddons, 'appAndAddons');
+    appAndAddons = debugTree(appAndAddons, 'appAndAddons');
 
-  let strippedAppAndAddons = new Compile([appAndAddons, amdModules], {
-    appName: this.name,
-    include: options.additionalEntryPoints,
-    includeEntireAppTree: options.includeEntireAppTree,
-    projectRoot: this.project.root,
-    useNodeModules: options.useNodeModules,
-    annotation: 'Compile',
-    missingExportCallback: (exportName, importingModule, importedModule) => {
-      this.project.ui.writeWarnLine(`${importingModule} cannot find '${exportName}' in ${importedModule}`);
-    }
-  });
+    let strippedAppAndAddons = new Compile([appAndAddons, amdModules], {
+      appName: this.name,
+      include: options.additionalEntryPoints,
+      includeEntireAppTree: options.includeEntireAppTree,
+      projectRoot: this.project.root,
+      useNodeModules: options.useNodeModules,
+      annotation: 'Compile',
+      missingExportCallback: (exportName, importingModule, importedModule) => {
+        this.project.ui.writeWarnLine(`${importingModule} cannot find '${exportName}' in ${importedModule}`);
+      }
+    });
 
-  strippedAppAndAddons = debugTree(strippedAppAndAddons, 'strippedAppAndAddons');
+    strippedAppAndAddons = debugTree(strippedAppAndAddons, 'strippedAppAndAddons');
 
-  app = new Funnel(strippedAppAndAddons, {
-    srcDir: 'app-tree-output'
-  });
+    app = new Funnel(strippedAppAndAddons, {
+      srcDir: 'app-tree-output'
+    });
 
-  addons = new Funnel(strippedAppAndAddons, {
-    srcDir: 'app-tree-output',
-    destDir: 'app-tree-output'
-  });
+    addons = new Funnel(strippedAppAndAddons, {
+      srcDir: 'app-tree-output',
+      destDir: 'app-tree-output'
+    });
 
-  let nodeModules = new Funnel(strippedAppAndAddons, {
-    srcDir: 'node_modules',
-    allowEmpty: true
-  });
+    let nodeModules = new Funnel(strippedAppAndAddons, {
+      srcDir: 'node_modules',
+      allowEmpty: true
+    });
 
-  let aliases = new NodeModulesMainAlias(nodeModules, {
-    projectRoot: this.project.root,
-    annotation: 'NodeModulesMainAlias'
-  });
+    let aliases = new NodeModulesMainAlias(nodeModules, {
+      projectRoot: this.project.root,
+      annotation: 'NodeModulesMainAlias'
+    });
 
-  aliases = new Funnel(aliases, {
-    destDir: 'vendor',
-    annotation: 'Funnel: aliases'
-  });
+    aliases = new Funnel(aliases, {
+      destDir: 'vendor',
+      annotation: 'Funnel: aliases'
+    });
 
-  // this.import('vendor/aliases.js');
+    // this.import('vendor/aliases.js');
 
-  nodeModules = this._compileAddonTree(nodeModules);
+    nodeModules = this._compileAddonTree(nodeModules);
 
-  nodeModules = new Funnel(nodeModules, {
-    // destDir: 'node_modules',
-    destDir: 'addon-tree-output', // for now
-    annotation: 'Funnel: node_modules'
-  });
+    nodeModules = new Funnel(nodeModules, {
+      // destDir: 'node_modules',
+      destDir: 'addon-tree-output', // for now
+      annotation: 'Funnel: node_modules'
+    });
 
-  tree = mergeTrees([
-    preservedTree,
-    app,
-    addons,
-    nodeModules,
-    aliases,
-    amdModules
-  ]);
+    tree = mergeTrees([
+      preservedTree,
+      app,
+      addons,
+      nodeModules,
+      aliases,
+      amdModules
+    ]);
 
-  tree = debugTree(tree, 'rollup');
+    tree = debugTree(tree, 'rollup');
 
-  let sourceTrees = this._legacyPackager(tree);
+    let sourceTrees = this._legacyPackager(tree);
 
-  tree = mergeTrees(sourceTrees, {
-    overwrite: true,
-    annotation: 'TreeMerger (_legacyPackager)'
-  });
+    tree = mergeTrees(sourceTrees, {
+      overwrite: true,
+      annotation: 'TreeMerger (_legacyPackager)'
+    });
 
-  return tree;
+    return tree;
+  };
 };

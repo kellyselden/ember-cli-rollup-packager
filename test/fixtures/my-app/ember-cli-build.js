@@ -15,6 +15,10 @@ module.exports = function(defaults) {
 
   let debugTree = BroccoliDebug.buildDebugCallback('my-app');
 
+  let _rollupPackager = rollupPackager({
+    useNodeModules: true
+  });
+
   app.package = function _package(fullTree) {
     if (process.send) {
       process.send('package hook called');
@@ -22,9 +26,7 @@ module.exports = function(defaults) {
 
     fullTree = debugTree(fullTree, 'pre');
 
-    fullTree = rollupPackager.call(this, fullTree, {
-      useNodeModules: true
-    });
+    fullTree = _rollupPackager.call(this, fullTree);
 
     fullTree = debugTree(fullTree, 'post');
 
