@@ -1,7 +1,6 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
-const mergeTrees = require('broccoli-merge-trees');
 const BroccoliDebug = require('broccoli-debug');
 const rollupPackager = require('ember-cli-rollup-packager');
 
