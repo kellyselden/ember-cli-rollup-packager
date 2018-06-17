@@ -989,6 +989,30 @@ describe('Integration | Compile', function() {
           });
         }));
       });
+
+      describe('tree-shaking', function() {
+        it('ignores unused exports', co.wrap(function *() {
+          appAndAddons.write({
+            'app-tree-output': {
+              'my-app': {
+                'app.js': `export { default } from './foo';\n`,
+                'foo.js': `export default 1; export const unused = 1;\n`
+              }
+            }
+          });
+
+          yield compile();
+
+          expect(output.read()).to.deep.equal({
+            'app-tree-output': {
+              'my-app': {
+                'app.js': `export { default } from './foo';\n`,
+                'foo.js': `var foo = 1;\n\nexport default foo;\n`
+              }
+            }
+          });
+        }));
+      });
     });
   });
 });
