@@ -454,21 +454,21 @@ describe('Integration | Compile', function() {
             appAndAddons.write({
               'app-tree-output': {
                 'my-app': {
-                  'app.js': `export default 1;\n`
+                  'foo.js': `export default 1;\n`
                 }
               }
             });
 
             yield compile({
               include: [
-                'app-tree-output/my-app/app.js'
+                'app-tree-output/my-app/foo.js'
               ]
             });
 
             expect(output.read()).to.deep.equal({
               'app-tree-output': {
                 'my-app': {
-                  'app.js': `var app = 1;\n\nexport default app;\n`
+                  'foo.js': `var foo = 1;\n\nexport default foo;\n`
                 }
               }
             });
@@ -477,7 +477,7 @@ describe('Integration | Compile', function() {
           it('includes app dir', co.wrap(function *() {
             appAndAddons.write({
               'app-tree-output': {
-                'my-app': {
+                'foo': {
                   'app.js': `export default 1;\n`
                 }
               }
@@ -485,13 +485,13 @@ describe('Integration | Compile', function() {
 
             yield compile({
               include: [
-                'app-tree-output/my-app'
+                'app-tree-output/foo'
               ]
             });
 
             expect(output.read()).to.deep.equal({
               'app-tree-output': {
-                'my-app': {
+                'foo': {
                   'app.js': `var app = 1;\n\nexport default app;\n`
                 }
               }
