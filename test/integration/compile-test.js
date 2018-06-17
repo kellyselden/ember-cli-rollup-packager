@@ -323,29 +323,64 @@ describe('Integration | Compile', function() {
           });
         }));
 
-        it('can opt-in to including entire app dir', co.wrap(function *() {
-          appAndAddons.write({
-            'app-tree-output': {
-              'my-app': {
-                'app.js': `export default 1;\n`,
-                'foo.js': `export default 1;\n`
+        describe('includeEntireAppTree', function() {
+          it('can opt-in to including entire app dir', co.wrap(function *() {
+            appAndAddons.write({
+              'app-tree-output': {
+                'my-app': {
+                  'app.js': `export default 1;\n`,
+                  'foo.js': `export default 1;\n`
+                }
               }
-            }
-          });
+            });
 
-          yield compile({
-            includeEntireAppTree: true
-          });
+            yield compile({
+              includeEntireAppTree: true
+            });
 
-          expect(output.read()).to.deep.equal({
-            'app-tree-output': {
-              'my-app': {
-                'app.js': `var app = 1;\n\nexport default app;\n`,
-                'foo.js': `var foo = 1;\n\nexport default foo;\n`
+            expect(output.read()).to.deep.equal({
+              'app-tree-output': {
+                'my-app': {
+                  'app.js': `var app = 1;\n\nexport default app;\n`,
+                  'foo.js': `var foo = 1;\n\nexport default foo;\n`
+                }
               }
-            }
-          });
-        }));
+            });
+          }));
+
+          it('can still add non-app files to entry points', co.wrap(function *() {
+            appAndAddons.write({
+              'addon-tree-output': {
+                'my-addon': {
+                  'index.js': `export default 1;\n`
+                }
+              },
+              'app-tree-output': {
+                'my-app': {
+                  'app.js': `export default 1;\n`
+                }
+              }
+            });
+
+            yield compile({
+              includeEntireAppTree: true,
+              include: ['addon-tree-output/my-addon/index.js']
+            });
+
+            expect(output.read()).to.deep.equal({
+              'addon-tree-output': {
+                'my-addon': {
+                  'index.js': `var index = 1;\n\nexport default index;\n`
+                }
+              },
+              'app-tree-output': {
+                'my-app': {
+                  'app.js': `var app = 1;\n\nexport default app;\n`
+                }
+              }
+            });
+          }));
+        });
       });
 
       describe('addon', function() {
