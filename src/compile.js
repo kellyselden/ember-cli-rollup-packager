@@ -59,11 +59,10 @@ function expand(id) {
 function buildEntryPoint(appAndAddons, appDir, include, includeEntireAppTree) {
   const walkSync = require('walk-sync');
 
-  let entryPoints;
+  let entryPoints = include.map(i => path.join(appAndAddons, i));
+
   if (includeEntireAppTree) {
-    entryPoints = [appDir];
-  } else {
-    entryPoints = include.map(i => path.join(appAndAddons, i));
+    entryPoints.push(appDir);
   }
 
   let autoInclude = appDirs;
@@ -93,7 +92,7 @@ function buildEntryPoint(appAndAddons, appDir, include, includeEntireAppTree) {
     return entryPoints;
   }, []);
 
-  return entryPoints;
+  return [...new Set(entryPoints)];
 }
 
 function buildConfigPaths(appDir, appName, projectRoot) {
