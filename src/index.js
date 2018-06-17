@@ -68,8 +68,8 @@ module.exports = function _rollupPackager(options = {}) {
     });
 
     addons = new Funnel(strippedAppAndAddons, {
-      srcDir: 'app-tree-output',
-      destDir: 'app-tree-output'
+      srcDir: 'addon-tree-output',
+      destDir: 'addon-tree-output'
     });
 
     let nodeModules = new Funnel(strippedAppAndAddons, {
