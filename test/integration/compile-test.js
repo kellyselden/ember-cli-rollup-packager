@@ -322,6 +322,30 @@ describe('Integration | Compile', function() {
             }
           });
         }));
+
+        it('can opt-in to including entire app dir', co.wrap(function *() {
+          appAndAddons.write({
+            'app-tree-output': {
+              'my-app': {
+                'app.js': `export default 1;\n`,
+                'foo.js': `export default 1;\n`
+              }
+            }
+          });
+
+          yield compile({
+            includeEntireAppTree: true
+          });
+
+          expect(output.read()).to.deep.equal({
+            'app-tree-output': {
+              'my-app': {
+                'app.js': `var app = 1;\n\nexport default app;\n`,
+                'foo.js': `var foo = 1;\n\nexport default foo;\n`
+              }
+            }
+          });
+        }));
       });
 
       describe('addon', function() {
