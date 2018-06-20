@@ -11,7 +11,7 @@
       "cwd": "${workspaceFolder}/test/fixtures/my-app",
       "program": "${workspaceFolder}/test/fixtures/my-app/node_modules/ember-cli/bin/ember",
       "args": [
-        "test"
+        "serve"
       ],
       "env": {
         "EMBER_CLI_PACKAGER": "true",
