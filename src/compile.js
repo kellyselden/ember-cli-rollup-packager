@@ -114,7 +114,8 @@ function _shouldPreservePath(
   amdModules,
   // nodeModulesSrc,
   // entryPoints,
-  config
+  config,
+  additionalExternals
 ) {
   // const resolve = require('resolve');
 
@@ -156,6 +157,9 @@ function _shouldPreservePath(
       return true;
     }
     if (externalScopes.some(scope => id.startsWith(`${scope}/`))) {
+      return true;
+    }
+    if (additionalExternals.indexOf(id) > -1) {
       return true;
     }
     // if (entryPoints.indexOf(id) > -1) {
@@ -336,6 +340,7 @@ class Compile extends BroccoliPlugin {
     let include = options.include || [];
     let includeEntireAppTree = options.includeEntireAppTree;
     let useNodeModules = options.useNodeModules;
+    let additionalExternals = options.external || [];
 
     const rollup = require('rollup');
     const resolvePlugin = require('rollup-plugin-node-resolve');
@@ -367,7 +372,8 @@ class Compile extends BroccoliPlugin {
       amdModules,
       // nodeModulesSrc,
       // entryPoints,
-      config
+      config,
+      additionalExternals
     );
 
     let foundModules = new Set();

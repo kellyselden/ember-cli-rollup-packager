@@ -16,7 +16,8 @@ module.exports = function(defaults) {
   let debugTree = BroccoliDebug.buildDebugCallback('my-app');
 
   let _rollupPackager = rollupPackager({
-    useNodeModules: true
+    useNodeModules: true,
+    externalImports: ['pretender']
   });
 
   app.package = function _package(fullTree) {
