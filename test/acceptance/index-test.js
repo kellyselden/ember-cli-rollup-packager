@@ -21,8 +21,7 @@ describe('Acceptance | index', function() {
       stdio: ['ipc', 'inherit', 'inherit'],
       env: Object.assign({
         EMBER_CLI_PACKAGER: 'true',
-        EMBER_CLI_DELAYED_TRANSPILATION: 'true',
-        BROCCOLI_DEBUG: 'my-app:*,rollup-packager:*'
+        EMBER_CLI_DELAYED_TRANSPILATION: 'true'
       }, process.env)
     });
 
