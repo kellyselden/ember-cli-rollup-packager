@@ -323,6 +323,37 @@ describe('Integration | Compile', function() {
           });
         }));
 
+        it('ignores node modules that are marked as shims', co.wrap(function *() {
+          appAndAddons.write({
+            'app-tree-output': {
+              'my-app': {
+                'app.js': `export { default } from 'lodash';\n`
+              }
+            }
+          });
+
+          nodeModules.write({
+            'node_modules': {
+              'lodash': {
+                'index.js': `export default 1;\n`,
+                'package.json': `{ "jsnext:main": "index.js" }`
+              }
+            }
+          });
+
+          yield compile({
+            external: ['lodash']
+          });
+
+          expect(output.read()).to.deep.equal({
+            'app-tree-output': {
+              'my-app': {
+                'app.js': `export { default } from 'lodash';\n`
+              }
+            }
+          });
+        }));
+
         describe('includeEntireAppTree', function() {
           it('can opt-in to including entire app dir', co.wrap(function *() {
             appAndAddons.write({
