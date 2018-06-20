@@ -4,6 +4,7 @@
   "description": "Rollup.js packager for Ember CLI",
   "main": "src/index.js",
   "scripts": {
+    "refresh": "rm -rf node_modules yarn.lock && pushd \"test/fixtures/my-app\" && rm -rf node_modules yarn.lock && popd && yarn && yarn test",
     "lint": "eslint .",
     "debug": "cross-env BROCCOLI_DEBUG=my-app:*,rollup-packager:* yarn test",
     "test": "mocha \"test/!(fixtures)/**/*-test.js\""
