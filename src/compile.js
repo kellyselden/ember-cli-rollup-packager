@@ -39,6 +39,11 @@ const externalScopes = [
   '@glimmer'
 ];
 
+const appSrc = 'app-tree-output';
+const addonSrc = 'addon-tree-output';
+const nodeModulesSrc = 'node_modules';
+const nodeModulesDest = 'node_modules';
+
 function expand(id) {
   let sep = id.includes('\\') ? '\\' : '/';
   let ids = [id];
@@ -139,7 +144,7 @@ function _shouldPreservePath(
     // try {
     //   let resolved = resolve.sync(id, {
     //     basedir: amdModules,
-    //     moduleDirectory: 'addon-tree-output',
+    //     moduleDirectory: addonSrc,
     //   });
     //   if (resolved) {
     //     return true;
@@ -297,15 +302,15 @@ function _rewriteImportPath(
       //     newPath = relative(amdModules, x);
       //   }
       // }
-      let matched = (/^\.\/app-tree-output\/([^/]+)(.*)/).exec(newPath);
+      let matched = new RegExp(`^./${appSrc}/([^/]+)(.*)`).exec(newPath);
       if (matched) {
         // linking between files in an app
         withinBoundary();
       } else {
-        let matched = (/^\.\/addon-tree-output\/([^/]+)(.*)/).exec(newPath);
+        let matched = new RegExp(`^./${addonSrc}/([^/]+)(.*)`).exec(newPath);
         if (matched) {
           let addon = matched[1];
-          if (!parent.startsWith(`./addon-tree-output/${addon}`)) {
+          if (!parent.startsWith(`./${addonSrc}/${addon}`)) {
             // app references addon
             newPath = `${addon}${matched[2]}`;
           } else {
@@ -346,14 +351,14 @@ class Compile extends BroccoliPlugin {
     const resolvePlugin = require('rollup-plugin-node-resolve');
     // const amd = require('rollup-plugin-amd');
 
-    let appDir = path.join(appAndAddons, 'app-tree-output', appName);
+    let appDir = path.join(appAndAddons, appSrc, appName);
 
     // let amdFiles = walkSync(amdModules, {
     //   directories: false,
     //   // globs: [`**/*.js`],
     // });
 
-    // amdFiles = amdFiles.map(file => file.replace(/^addon-tree-output\//, ''));
+    // amdFiles = amdFiles.map(file => file.replace(/^${addonSrc}\//, ''));
 
     let entryPoints = buildEntryPoint(
       appAndAddons,
@@ -362,15 +367,15 @@ class Compile extends BroccoliPlugin {
       includeEntireAppTree
     );
 
-    let nodeModulesSrc = path.join(projectRoot, 'node_modules');
-    let nodeModulesDest = path.join(appAndAddons, 'node_modules');
+    let _nodeModulesSrc = path.join(projectRoot, nodeModulesSrc);
+    let _nodeModulesDest = path.join(appAndAddons, nodeModulesDest);
 
     let config = buildConfigPaths(appDir, appName, projectRoot);
 
     let shouldPreservePath = _shouldPreservePath(
       appAndAddons,
       amdModules,
-      // nodeModulesSrc,
+      // _nodeModulesSrc,
       // entryPoints,
       config,
       additionalExternals
@@ -382,8 +387,8 @@ class Compile extends BroccoliPlugin {
       customResolveOptions: {
         // package: { main: 'index.js' },
         moduleDirectory: [
-          'addon-tree-output',
-          'app-tree-output' // for self references (ie 'my-app/utils/foo')
+          addonSrc,
+          appSrc // for self references (ie 'my-app/utils/foo')
         ]
       }
     });
@@ -435,15 +440,15 @@ class Compile extends BroccoliPlugin {
         appAndAddonsPlugin,
         nodeModulesPlugin,
         moveNodeModules(
-          nodeModulesSrc,
-          nodeModulesDest,
+          _nodeModulesSrc,
+          _nodeModulesDest,
           plugins,
           config,
           foundModules
         ),
         {
           load(id) {
-            id = tryMove(id, nodeModulesDest, nodeModulesSrc);
+            id = tryMove(id, _nodeModulesDest, _nodeModulesSrc);
             if (id) {
               return fs.readFileSync(id, 'utf-8');
             }
@@ -452,7 +457,7 @@ class Compile extends BroccoliPlugin {
         {
           // moduleDest(file) {
           //   let id = path.resolve(appAndAddons, file);
-          //   id = tryMove(id, nodeModulesSrc, nodeModulesDest);
+          //   id = tryMove(id, _nodeModulesSrc, _nodeModulesDest);
           //   if (id) {
           //     return path.relative(destDir, id);
           //   }
@@ -475,7 +480,7 @@ class Compile extends BroccoliPlugin {
       let rewriteImportPath = _rewriteImportPath(
         appAndAddons,
         amdModules,
-        nodeModulesDest,
+        _nodeModulesDest,
         commonDir
       );
 
