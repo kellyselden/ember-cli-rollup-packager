@@ -13,8 +13,8 @@ module.exports = function _rollupPackager(options = {}) {
   return function rollupPackager(tree) {
     let preservedTree = new Funnel(tree, {
       exclude: [
-        'addon-tree-output/**/*.js',
-        'addon-tree-output/**/*.hbs',
+        'node_modules/**/*.js',
+        'node_modules/**/*.hbs',
         `${this.name}/**/*.js`,
         `${this.name}/**/*.hbs`,
         'tests/**/*.js'
@@ -31,8 +31,8 @@ module.exports = function _rollupPackager(options = {}) {
 
     let addons = new Funnel(tree, {
       include: [
-        'addon-tree-output/**/*.js',
-        'addon-tree-output/**/*.hbs'
+        'node_modules/**/*.js',
+        'node_modules/**/*.hbs'
       ]
     });
 
@@ -76,8 +76,8 @@ module.exports = function _rollupPackager(options = {}) {
     });
 
     addons = new Funnel(strippedAppAndAddons, {
-      srcDir: 'addon-tree-output',
-      destDir: 'addon-tree-output'
+      srcDir: 'node_modules',
+      destDir: 'node_modules'
     });
 
     tests = new Funnel(strippedAppAndAddons, {
@@ -86,7 +86,7 @@ module.exports = function _rollupPackager(options = {}) {
     });
 
     let nodeModules = new Funnel(strippedAppAndAddons, {
-      srcDir: 'node_modules',
+      srcDir: 'node_modules-2',
       allowEmpty: true
     });
 
@@ -105,8 +105,7 @@ module.exports = function _rollupPackager(options = {}) {
     nodeModules = this._compileAddonTree(nodeModules);
 
     nodeModules = new Funnel(nodeModules, {
-      // destDir: 'node_modules',
-      destDir: 'addon-tree-output', // for now
+      destDir: 'node_modules',
       annotation: 'Funnel: node_modules'
     });
 

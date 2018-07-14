@@ -381,7 +381,7 @@ describe('Integration | Compile', function() {
 
           it('can still add non-app files to entry points', co.wrap(function *() {
             appAndAddons.write({
-              'addon-tree-output': {
+              'node_modules': {
                 'my-addon': {
                   'index.js': `export default 1;\n`
                 }
@@ -396,12 +396,12 @@ describe('Integration | Compile', function() {
             yield compile({
               includeEntireAppTree: true,
               include: [
-                'addon-tree-output/my-addon/index.js'
+                'node_modules/my-addon/index.js'
               ]
             });
 
             expect(output.read()).to.deep.equal({
-              'addon-tree-output': {
+              'node_modules': {
                 'my-addon': {
                   'index.js': `var index = 1;\n\nexport default index;\n`
                 }
@@ -419,7 +419,7 @@ describe('Integration | Compile', function() {
       describe('addon', function() {
         it('resolves an addon file', co.wrap(function *() {
           appAndAddons.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'addon.js': `export default 1;\n`
               }
@@ -434,7 +434,7 @@ describe('Integration | Compile', function() {
           yield compile();
 
           expect(output.read()).to.deep.equal({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'addon.js': `var addon = 1;\n\nexport default addon;\n`
               }
@@ -449,7 +449,7 @@ describe('Integration | Compile', function() {
 
         it('resolves a default addon file', co.wrap(function *() {
           appAndAddons.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'index.js': `export default 1;\n`
               }
@@ -464,7 +464,7 @@ describe('Integration | Compile', function() {
           yield compile();
 
           expect(output.read()).to.deep.equal({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'index.js': `var index = 1;\n\nexport default index;\n`
               }
@@ -479,7 +479,7 @@ describe('Integration | Compile', function() {
 
         it('resolves a relative addon file', co.wrap(function *() {
           appAndAddons.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'foo.js': `export default 1;\n`,
                 'addon.js': `export { default } from './foo';\n`
@@ -495,7 +495,7 @@ describe('Integration | Compile', function() {
           yield compile();
 
           expect(output.read()).to.deep.equal({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'foo.js': `var foo = 1;\n\nexport default foo;\n`
               }
@@ -510,7 +510,7 @@ describe('Integration | Compile', function() {
 
         it('resolves an absolute addon file', co.wrap(function *() {
           appAndAddons.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'foo.js': `export default 1;\n`,
                 'addon.js': `export { default } from 'my-addon/foo';\n`
@@ -526,7 +526,7 @@ describe('Integration | Compile', function() {
           yield compile();
 
           expect(output.read()).to.deep.equal({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'foo.js': `var foo = 1;\n\nexport default foo;\n`
               }
@@ -590,7 +590,7 @@ describe('Integration | Compile', function() {
 
           it('includes addon file', co.wrap(function *() {
             appAndAddons.write({
-              'addon-tree-output': {
+              'node_modules': {
                 'my-addon': {
                   'addon.js': `export default 1;\n`
                 }
@@ -599,12 +599,12 @@ describe('Integration | Compile', function() {
 
             yield compile({
               include: [
-                'addon-tree-output/my-addon/addon.js'
+                'node_modules/my-addon/addon.js'
               ]
             });
 
             expect(output.read()).to.deep.equal({
-              'addon-tree-output': {
+              'node_modules': {
                 'my-addon': {
                   'addon.js': `var addon = 1;\n\nexport default addon;\n`
                 }
@@ -614,7 +614,7 @@ describe('Integration | Compile', function() {
 
           it('includes addon dir', co.wrap(function *() {
             appAndAddons.write({
-              'addon-tree-output': {
+              'node_modules': {
                 'my-addon': {
                   'addon.js': `export default 1;\n`
                 }
@@ -623,12 +623,12 @@ describe('Integration | Compile', function() {
 
             yield compile({
               include: [
-                'addon-tree-output/my-addon'
+                'node_modules/my-addon'
               ]
             });
 
             expect(output.read()).to.deep.equal({
-              'addon-tree-output': {
+              'node_modules': {
                 'my-addon': {
                   'addon.js': `var addon = 1;\n\nexport default addon;\n`
                 }
@@ -639,7 +639,7 @@ describe('Integration | Compile', function() {
 
         it('ignores unused', co.wrap(function *() {
           appAndAddons.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'addon.js': `export default 1;\n`,
                 'unused.js': `export default 1;\n`
@@ -655,7 +655,7 @@ describe('Integration | Compile', function() {
           yield compile();
 
           expect(output.read()).to.deep.equal({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'addon.js': `var addon = 1;\n\nexport default addon;\n`
               }
@@ -680,7 +680,7 @@ describe('Integration | Compile', function() {
           });
 
           amdModules.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'addon.js': `define('my-addon/addon', ['exports'], function (exports) { exports.default = 1; });\n`
               }
@@ -708,7 +708,7 @@ describe('Integration | Compile', function() {
           });
 
           amdModules.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'index.js': `define('my-addon/index', ['exports'], function (exports) { exports.default = 1; });\n`
               }
@@ -728,7 +728,7 @@ describe('Integration | Compile', function() {
 
         it('resolves an AMD module from an addon', co.wrap(function *() {
           appAndAddons.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'foo.js': `export { default } from 'my-addon/addon';\n`
               }
@@ -742,7 +742,7 @@ describe('Integration | Compile', function() {
           });
 
           amdModules.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'addon.js': `define('my-addon/addon', ['exports'], function (exports) { exports.default = 1; });\n`
               }
@@ -767,7 +767,7 @@ describe('Integration | Compile', function() {
 
         it('resolves a default AMD module from an addon', co.wrap(function *() {
           appAndAddons.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'foo.js': `export { default } from 'my-addon';\n`
               }
@@ -781,7 +781,7 @@ describe('Integration | Compile', function() {
           });
 
           amdModules.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'index.js': `define('my-addon/index', ['exports'], function (exports) { exports.default = 1; });\n`
               }
@@ -814,7 +814,7 @@ describe('Integration | Compile', function() {
           });
 
           amdModules.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'addon.js': `define('my-addon/addon', ['exports'], function (exports) { exports.default = 1; });\n`,
                 'unused.js': `define('my-addon/unused', ['exports'], function (exports) { exports.default = 1; });\n`
@@ -861,7 +861,7 @@ describe('Integration | Compile', function() {
                 'app.js': `export { default } from 'lodash/lodash';\n`
               }
             },
-            'node_modules': {
+            'node_modules-2': {
               'lodash': {
                 'lodash.js': `var lodash = 1;\n\nexport default lodash;\n`
               }
@@ -895,7 +895,7 @@ describe('Integration | Compile', function() {
                 'app.js': `export { default } from 'lodash';\n`
               }
             },
-            'node_modules': {
+            'node_modules-2': {
               'lodash': {
                 'index.js': `var index = 1;\n\nexport default index;\n`
               }
@@ -930,7 +930,7 @@ describe('Integration | Compile', function() {
                 'app.js': `export { default } from 'lodash/_private';\n`
               }
             },
-            'node_modules': {
+            'node_modules-2': {
               'lodash': {
                 '_private.js': `var _private = 1;\n\nexport default _private;\n`
               }
@@ -967,7 +967,7 @@ describe('Integration | Compile', function() {
                 'app.js': `export { default } from 'lodash/lib';\n`
               }
             },
-            'node_modules': {
+            'node_modules-2': {
               'lodash': {
                 'lib': {
                   'index.js': `var index = 1;\n\nexport default index;\n`
@@ -1004,7 +1004,7 @@ describe('Integration | Compile', function() {
                 'app.js': `export { default } from 'lodash/foo';\n`
               }
             },
-            'node_modules': {
+            'node_modules-2': {
               'lodash': {
                 'foo.js': `var foo = 1;\n\nexport default foo;\n`
               }
@@ -1070,7 +1070,7 @@ describe('Integration | Compile', function() {
                 'app.js': `export { default } from 'lodash/lodash';\n`
               }
             },
-            'node_modules': {
+            'node_modules-2': {
               'lodash': {
                 'lodash.js': `var lodash = 1;\n\nexport default lodash;\n`
               }
@@ -1104,7 +1104,7 @@ describe('Integration | Compile', function() {
 
         it('shaking modules in different dirs down to a single remaining still places it in the correct dir', co.wrap(function *() {
           appAndAddons.write({
-            'addon-tree-output': {
+            'node_modules': {
               'my-addon': {
                 'index.js': `export { default } from 'external';\n`
               }

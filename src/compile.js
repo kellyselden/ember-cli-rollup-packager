@@ -45,9 +45,9 @@ const externalScopes = [
 ];
 
 const appSrc = 'app-tree-output';
-const addonSrc = 'addon-tree-output';
+const addonSrc = 'node_modules';
 const nodeModulesSrc = 'node_modules';
-const nodeModulesDest = 'node_modules';
+const nodeModulesDest = 'node_modules-2';
 
 function expand(id) {
   let sep = id.includes('\\') ? '\\' : '/';

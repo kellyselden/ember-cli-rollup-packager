@@ -23,7 +23,7 @@ describe('Unit | Compile | rewriteImportPath', function() {
     nodeModulesSrc = path.resolve('/path/to/nodeModulesSrc');
 
     appDir = path.join(appAndAddons, 'app-tree-output/my-app');
-    addonDir = path.join(appAndAddons, 'addon-tree-output/my-addon');
+    addonDir = path.join(appAndAddons, 'node_modules/my-addon');
 
     rewriteImportPath = function() {
       return _rewriteImportPath(
