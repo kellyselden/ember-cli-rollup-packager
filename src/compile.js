@@ -68,17 +68,17 @@ function buildEntryPoint(appAndAddons, appDir, include, includeEntireAppTree) {
 
   if (includeEntireAppTree) {
     entryPoints.push(appDir);
-  }
+  } else {
+    let autoInclude = appDirs;
+    let emberData = true;
+    if (emberData) {
+      autoInclude = autoInclude.concat(emberDataDirs);
+    }
 
-  let autoInclude = appDirs;
-  let emberData = true;
-  if (emberData) {
-    autoInclude = autoInclude.concat(emberDataDirs);
+    entryPoints = entryPoints.concat(
+      autoInclude.concat(appFiles).map(dir => path.join(appDir, dir))
+    );
   }
-
-  entryPoints = entryPoints.concat(
-    autoInclude.concat(appFiles).map(dir => path.join(appDir, dir))
-  );
 
   entryPoints = entryPoints.reduce((entryPoints, dir) => {
     try {
