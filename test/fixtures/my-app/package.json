@@ -12,14 +12,14 @@
   "repository": "",
   "scripts": {
     "build": "ember build",
-    "lint:js": "eslint ./*.js app blueprints config lib server tests",
+    "lint:js": "eslint .",
     "start": "ember serve",
     "test": "ember test"
   },
   "devDependencies": {
     "@ember-decorators/babel-transforms": "^2.0.0",
     "babel-eslint": "^8.0.0",
-    "broccoli-asset-rev": "^2.4.5",
+    "broccoli-asset-rev": "^2.7.0",
     "broccoli-debug": "^0.6.4",
     "ember-ajax": "^3.0.0",
     "ember-cli": "ember-cli/ember-cli",
@@ -31,22 +31,23 @@
     "ember-cli-htmlbars-inline-precompile": "^1.0.0",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-mirage": "^0.4.7",
-    "ember-cli-qunit": "^4.1.1",
+    "ember-cli-qunit": "^4.3.2",
     "ember-cli-rollup-packager": "file:../../..",
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-uglify": "^2.0.0",
-    "ember-data": "~3.1.0",
+    "ember-data": "~3.2.0",
     "ember-decorators": "^2.1.0",
     "ember-export-application-global": "^2.0.0",
-    "ember-load-initializers": "^1.0.0",
+    "ember-load-initializers": "^1.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-resolver": "^4.0.0",
-    "ember-source": "~3.1.0",
+    "ember-source": "~3.2.0",
     "ember-welcome-page": "^3.0.0",
     "eslint-plugin-ember": "^5.0.0",
     "loader.js": "^4.2.3",
-    "lodash-es": "^4.17.10"
+    "lodash-es": "^4.17.10",
+    "qunit-dom": "^0.6.2"
   },
   "resolutions": {
     "ember-resolver/babel-plugin-debug-macros": "kellyselden/babel-plugin-debug-macros",
@@ -55,6 +56,6 @@
     "ember-decorators/@ember-decorators/object/ember-compatibility-helpers/babel-plugin-debug-macros": "kellyselden/babel-plugin-debug-macros"
   },
   "engines": {
-    "node": "^4.5 || 6.* || >= 7.*"
+    "node": "6.* || 8.* || >= 10.*"
   }
 }
