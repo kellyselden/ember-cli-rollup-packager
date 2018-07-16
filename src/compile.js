@@ -302,7 +302,7 @@ function _rewriteImportPath(
       //     newPath = relative(amdModules, x);
       //   }
       // }
-      let matched = new RegExp(`^./${appSrc}/([^/]+)(.*)`).exec(newPath);
+      let matched = new RegExp(`^./${appSrc}/.*`).exec(newPath);
       if (matched) {
         // linking between files in an app
         withinBoundary();
