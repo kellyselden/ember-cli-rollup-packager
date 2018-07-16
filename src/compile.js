@@ -18,7 +18,8 @@ const appDirs = [
   'instance-initializers',
   'routes',
   'services',
-  'templates'
+  'templates',
+  'tests'
 ];
 
 const emberDataDirs = [
@@ -27,12 +28,16 @@ const emberDataDirs = [
   'serializers'
 ];
 
-// suppress not found warnings
 const externals = [
+  // suppress not found warnings
   'ember',
   'jquery',
   'rsvp',
-  'require'
+  'require',
+
+  // prevent finding CJS version
+  'qunit',
+  'ember-qunit'
 ];
 const externalScopes = [
   '@ember',

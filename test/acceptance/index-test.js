@@ -1,28 +1,38 @@
 'use strict';
 
-const { expect } = require('chai');
+const chai = require('chai');
 const { execSync, spawn } = require('child_process');
 const resolve = require('resolve');
 const path = require('path');
+const chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+const { expect } = chai;
+const { file } = chaiFiles;
+
+const appDir = 'test/fixtures/my-app';
 
 describe('Acceptance | index', function() {
   this.timeout(300000);
 
   it('works', function() {
-    process.chdir('test/fixtures/my-app');
+    execSync('yarn install', {
+      stdio: 'inherit',
+      cwd: appDir
+    });
 
-    execSync('yarn install', { stdio: 'inherit' });
-
-    let entryPoint = resolve.sync('ember-cli', { basedir: process.cwd() });
+    let entryPoint = resolve.sync('ember-cli', { basedir: appDir });
     let bin = path.resolve(entryPoint, '../../../bin/ember');
-    let relative = bin.substr(process.cwd().length + 1);
+    let relative = bin.substr(process.cwd().length + 1 + appDir.length + 1);
 
-    let ps = spawn('node', [relative, 'test'], {
+    let ps = spawn('node', [relative, 'build'], {
       stdio: ['ipc', 'inherit', 'inherit'],
       env: Object.assign({
         EMBER_CLI_PACKAGER: 'true',
         EMBER_CLI_DELAYED_TRANSPILATION: 'true'
-      }, process.env)
+      }, process.env),
+      cwd: appDir
     });
 
     let isBuilding;
@@ -45,6 +55,23 @@ describe('Acceptance | index', function() {
       expect(status).to.equal(0);
       expect(isBuilding).to.be.ok;
       expect(wasPackageHookCalled).to.be.ok;
+
+      let app = file(path.resolve(appDir, 'dist/assets/my-app.js'));
+      let tests = file(path.resolve(appDir, 'dist/assets/tests.js'));
+
+      expect(app).to.not.match(/define\(['"]my-app\/unused['"]/m);
+
+      expect(tests).to.match(/define\(['"]my-app\/tests\/acceptance\/index-test['"]/m);
+      expect(tests).to.match(/define\(['"]my-app\/tests\/helpers\/imported-from-tests['"]/m);
+      expect(app).to.match(/define\(['"]my-app\/imported-from-tests['"]/m);
+
+      for (let file of [
+        app,
+        tests
+      ]) {
+        expect(file).to.not.match(/define\(['"]app-tree-output\//m);
+        expect(file).to.not.match(/define\(['"]tests\//m);
+      }
     });
   });
 });

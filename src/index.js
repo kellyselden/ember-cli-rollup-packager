@@ -16,7 +16,8 @@ module.exports = function _rollupPackager(options = {}) {
         'addon-tree-output/**/*.js',
         'addon-tree-output/**/*.hbs',
         `${this.name}/**/*.js`,
-        `${this.name}/**/*.hbs`
+        `${this.name}/**/*.hbs`,
+        'tests/**/*.js'
       ]
     });
 
@@ -45,7 +46,12 @@ module.exports = function _rollupPackager(options = {}) {
     app = this._compileAddonTemplates(app);
     addons = this._compileAddonTemplates(addons);
 
-    let appAndAddons = mergeTrees([app, addons]);
+    let tests = new Funnel(tree, {
+      include: ['tests/**/*.js'],
+      destDir: `app-tree-output/${this.name}`
+    });
+
+    let appAndAddons = mergeTrees([app, addons, tests]);
 
     appAndAddons = debugTree(appAndAddons, 'appAndAddons');
 
@@ -65,12 +71,18 @@ module.exports = function _rollupPackager(options = {}) {
     strippedAppAndAddons = debugTree(strippedAppAndAddons, 'strippedAppAndAddons');
 
     app = new Funnel(strippedAppAndAddons, {
-      srcDir: 'app-tree-output'
+      srcDir: 'app-tree-output',
+      exclude: [`${this.name}/tests/**/*.js`]
     });
 
     addons = new Funnel(strippedAppAndAddons, {
       srcDir: 'addon-tree-output',
       destDir: 'addon-tree-output'
+    });
+
+    tests = new Funnel(strippedAppAndAddons, {
+      srcDir: `app-tree-output/${this.name}/tests`,
+      destDir: 'tests'
     });
 
     let nodeModules = new Funnel(strippedAppAndAddons, {
@@ -102,6 +114,7 @@ module.exports = function _rollupPackager(options = {}) {
       preservedTree,
       app,
       addons,
+      tests,
       nodeModules,
       aliases,
       amdModules
