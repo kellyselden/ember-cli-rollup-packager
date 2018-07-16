@@ -395,7 +395,9 @@ describe('Integration | Compile', function() {
 
             yield compile({
               includeEntireAppTree: true,
-              include: ['addon-tree-output/my-addon/index.js']
+              include: [
+                'addon-tree-output/my-addon/index.js'
+              ]
             });
 
             expect(output.read()).to.deep.equal({
