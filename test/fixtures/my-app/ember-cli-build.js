@@ -2,7 +2,10 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const BroccoliDebug = require('broccoli-debug');
-const rollupPackager = require('ember-cli-rollup-packager');
+const rollupPackager = require(
+  // yarn 1.7.0 doesn't do well with `file:../../..` links
+  process.env.CI ? 'ember-cli-rollup-packager' : '../../../src'
+);
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
