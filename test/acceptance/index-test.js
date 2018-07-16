@@ -13,7 +13,7 @@ const { file } = chaiFiles;
 
 const appDir = 'test/fixtures/my-app';
 
-describe('Acceptance | index', function() {
+describe.only('Acceptance | index', function() {
   this.timeout(300000);
 
   it('works', function() {
@@ -29,8 +29,8 @@ describe('Acceptance | index', function() {
     let ps = spawn('node', [relative, 'build'], {
       stdio: ['ipc', 'inherit', 'inherit'],
       env: Object.assign({
-        EMBER_CLI_PACKAGER: 'true',
-        EMBER_CLI_DELAYED_TRANSPILATION: 'true'
+        // EMBER_CLI_PACKAGER: 'true',
+        // EMBER_CLI_DELAYED_TRANSPILATION: 'true'
       }, process.env),
       cwd: appDir
     });
@@ -54,16 +54,18 @@ describe('Acceptance | index', function() {
     }).then(status => {
       expect(status).to.equal(0);
       expect(isBuilding).to.be.ok;
-      expect(wasPackageHookCalled).to.be.ok;
+      // expect(wasPackageHookCalled).to.be.ok;
 
       let app = file(path.resolve(appDir, 'dist/assets/my-app.js'));
       let tests = file(path.resolve(appDir, 'dist/assets/tests.js'));
+      let testSupport = file(path.resolve(appDir, 'dist/assets/test-support.js'));
 
-      expect(app).to.not.match(/define\(['"]my-app\/unused['"]/m);
+      // expect(app).to.not.match(/define\(['"]my-app\/unused['"]/m);
 
       expect(tests).to.match(/define\(['"]my-app\/tests\/acceptance\/index-test['"]/m);
       expect(tests).to.match(/define\(['"]my-app\/tests\/helpers\/imported-from-tests['"]/m);
       expect(app).to.match(/define\(['"]my-app\/imported-from-tests['"]/m);
+      expect(testSupport).to.match(/define\(['"]my-addon\/test-support\/imported-from-tests['"]/m);
 
       for (let file of [
         app,
