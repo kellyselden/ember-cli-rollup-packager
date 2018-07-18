@@ -49,12 +49,6 @@
     "lodash-es": "^4.17.10",
     "qunit-dom": "^0.6.2"
   },
-  "resolutions": {
-    "ember-resolver/babel-plugin-debug-macros": "kellyselden/babel-plugin-debug-macros",
-    "ember-cli-babel/babel-plugin-debug-macros": "kellyselden/babel-plugin-debug-macros",
-    "ember-data/@ember/ordered-set/ember-cli-babel/babel-plugin-debug-macros": "kellyselden/babel-plugin-debug-macros",
-    "ember-decorators/@ember-decorators/object/ember-compatibility-helpers/babel-plugin-debug-macros": "kellyselden/babel-plugin-debug-macros"
-  },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
   }
