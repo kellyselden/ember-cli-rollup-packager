@@ -51,7 +51,11 @@ module.exports = function _rollupPackager(options = {}) {
       destDir: `app-tree-output/${this.name}`
     });
 
-    let appAndAddons = mergeTrees([app, addons, tests]);
+    let appAndAddons = mergeTrees([app, addons, tests], {
+      // mirage can do weird things with files in both
+      // tests/ and app/tests/ (percy-web)
+      overwrite: true
+    });
 
     appAndAddons = debugTree(appAndAddons, 'appAndAddons');
 
