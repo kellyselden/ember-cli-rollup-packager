@@ -7,7 +7,7 @@ const Funnel = require('broccoli-funnel');
 const mergeTrees = require('broccoli-merge-trees');
 const BroccoliDebug = require('broccoli-debug');
 
-let debugTree = BroccoliDebug.buildDebugCallback('rollup-packager');
+const debugTree = BroccoliDebug.buildDebugCallback('rollup-packager');
 
 module.exports = function _rollupPackager(options = {}) {
   return function rollupPackager(tree) {
