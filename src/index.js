@@ -1,11 +1,19 @@
 'use strict';
 
-const AmdExcluder = require('./amd-excluder');
+const fs = require('fs');
+const path = require('path');
 const NodeModulesMainAlias = require('./node-modules-main-alias');
 const Compile = require('./compile');
 const Funnel = require('broccoli-funnel');
 const mergeTrees = require('broccoli-merge-trees');
 const BroccoliDebug = require('broccoli-debug');
+
+// compilcated enough to prevent false positives
+// covers the following:
+// define([], function () {
+// define(["exports"], function (exports) {
+// define("my custom module name", [], function () {
+const AmdRegex = /^define\(.*\[.*\], function \(.*\) {$/;
 
 const debugTree = BroccoliDebug.buildDebugCallback('rollup-packager');
 
@@ -36,8 +44,16 @@ module.exports = function _rollupPackager(options = {}) {
       ]
     });
 
-    let amdModules = new AmdExcluder(addons, {
-      include: true
+    let preAmdAddons = addons;
+    let amdModules = new Funnel(addons, {
+      include: [relativePath => {
+        let [inputPath] = preAmdAddons.inputPaths;
+        let absolutePath = path.resolve(inputPath, relativePath);
+        // if `include` was promise-aware,
+        // we could make this faster
+        let string = fs.readFileSync(absolutePath, 'utf8');
+        return AmdRegex.test(string);
+      }]
     });
 
     // addons = new AmdExcluder(addons, {
