@@ -1,12 +1,13 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+const ContentFunnel = require('broccoli-content-funnel');
 const NodeModulesMainAlias = require('./node-modules-main-alias');
 const Compile = require('./compile');
 const Funnel = require('broccoli-funnel');
 const mergeTrees = require('broccoli-merge-trees');
 const BroccoliDebug = require('broccoli-debug');
+const denodeify = require('denodeify');
+const eachLine = denodeify(require('line-reader').eachLine);
 
 // compilcated enough to prevent false positives
 // covers the following:
@@ -44,16 +45,16 @@ module.exports = function _rollupPackager(options = {}) {
       ]
     });
 
-    let preAmdAddons = addons;
-    let amdModules = new Funnel(addons, {
-      include: [relativePath => {
-        let [inputPath] = preAmdAddons.inputPaths;
-        let absolutePath = path.resolve(inputPath, relativePath);
-        // if `include` was promise-aware,
-        // we could make this faster
-        let string = fs.readFileSync(absolutePath, 'utf8');
-        return AmdRegex.test(string);
-      }]
+    let amdModules = new ContentFunnel(addons, {
+      include(filePath) {
+        let firstLine;
+        return eachLine(filePath, line => {
+          firstLine = line;
+          return false;
+        }).then(() => {
+          return AmdRegex.test(firstLine);
+        });
+      }
     });
 
     // addons = new AmdExcluder(addons, {
