@@ -50,3 +50,4 @@ module.exports = function(defaults) {
 | `useNodeModules` | Search node_modules for imported modules | `boolean` | | `false` |
 | `additionalEntryPoints` | Prevent non-standard Ember code from being ejected | `Array` of `String`s | `['app-tree-output/custom-file.js']` | `[]` |
 | `includeEntireAppTree` | Include all non-standard Ember code from the "app" folder | `boolean` | | `false` |
+| `externalImports` | Mark shimmed imports as external | `Array` of `String`s | `['pretender']` | `[]` |
