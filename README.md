@@ -9,7 +9,7 @@
 ## Installation
 
 ```
-npm install --save-dev ember-cli-rollup-packager ember-cli/ember-cli cross-env
+npm install --save-dev ember-cli-rollup-packager kellyselden/ember-cli#content-funnel cross-env
 ```
 
 ## Usage
