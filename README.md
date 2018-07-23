@@ -6,6 +6,10 @@
 
 [Rollup.js](https://rollupjs.org) packager for [Ember CLI](https://ember-cli.com)
 
+## Prerequisites
+
+Make sure your app works with ember-cli master first.
+
 ## Installation
 
 ```
