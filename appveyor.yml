@@ -11,7 +11,8 @@ install:
 test_script:
   - yarn test
 
-cache:
-  - "%LOCALAPPDATA%\\Yarn"
+# seems to perform better without the cache
+# cache:
+#   - "%LOCALAPPDATA%\\Yarn"
 
 build: off
