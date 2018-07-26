@@ -11,4 +11,7 @@ install:
 test_script:
   - yarn test
 
+cache:
+  - "%LOCALAPPDATA%\\Yarn"
+
 build: off
