@@ -14,8 +14,6 @@
         "serve"
       ],
       "env": {
-        "EMBER_CLI_PACKAGER": "true",
-        "EMBER_CLI_DELAYED_TRANSPILATION": "true",
         "BROCCOLI_DEBUG": "my-app:*,rollup-packager:*,ember-app:*"
       }
     },
