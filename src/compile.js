@@ -297,7 +297,7 @@ function _rewriteImportPath(
         newPath = normalize(absolute.substr(nodeModulesSrc.length + 1));
       }
     } else {
-      if (newPath.startsWith(appAndAddons)) {
+      if (path.isAbsolute(newPath)) {
         // a relative config/environment comes through here
         newPath = relative(appAndAddons, newPath);
       }
