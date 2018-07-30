@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-rollup-packager",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Rollup.js packager for Ember CLI",
   "main": "src/index.js",
   "scripts": {
