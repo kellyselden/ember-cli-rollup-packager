@@ -66,6 +66,7 @@ module.exports = function _rollupPackager(options = {}) {
       projectRoot: this.project.root,
       useNodeModules: options.useNodeModules,
       external: options.externalImports,
+      additionalInputOptions: options.additionalRollupInputOptions,
       annotation: 'Compile'
       // missingExportCallback: (exportName, importingModule, importedModule) => {
       //   this.project.ui.writeWarnLine(`${importingModule} cannot find '${exportName}' in ${importedModule}`);

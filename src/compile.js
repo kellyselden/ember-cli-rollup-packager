@@ -351,6 +351,7 @@ class Compile extends BroccoliPlugin {
     let includeEntireAppTree = options.includeEntireAppTree;
     let useNodeModules = options.useNodeModules;
     let additionalExternals = options.external || [];
+    let additionalInputOptions = options.additionalInputOptions || {};
 
     const rollup = require('rollup');
     const resolvePlugin = require('rollup-plugin-node-resolve');
@@ -415,7 +416,7 @@ class Compile extends BroccoliPlugin {
       delete plugin.resolveId;
     }
 
-    return rollup.rollup({
+    return rollup.rollup(Object.assign({
       input: entryPoints,
       plugins: [
         // amd(),
@@ -480,7 +481,7 @@ class Compile extends BroccoliPlugin {
       experimentalPreserveModules: true,
       // inputRelativeDir: appAndAddons,
       shimMissingExports: true
-    }).then(bundle => {
+    }, additionalInputOptions)).then(bundle => {
       let commonDir = getCommonDir(foundModules);
       let dir = rebaseAbsolute(appAndAddons, destDir, commonDir);
 

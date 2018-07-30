@@ -53,3 +53,4 @@ module.exports = function(defaults) {
 | `additionalEntryPoints` | Prevent non-standard Ember code from being ejected. Some addons have their own conventions that you need to manually enter in. | `Array` of `String`s | `['app-tree-output/custom-file.js']` | `[]` |
 | `includeEntireAppTree` | Include all non-standard Ember code from the "app" folder. This may be easier than using `additionalEntryPoints`, but eliminates some tree-shaking of the app. | `boolean` | | `false` |
 | `externalImports` | Mark shims as external. This suppresses warnings and prevents a different module with the same name from being found in node_modules. | `Array` of `String`s | `['pretender']` | `[]` |
+| `additionalRollupInputOptions` | Supply additional input options to affect the Rollup output. | `Object` | `{ treeshake: { pureExternalModules: true } }` | `{}` |
