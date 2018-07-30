@@ -416,7 +416,7 @@ class Compile extends BroccoliPlugin {
       delete plugin.resolveId;
     }
 
-    return rollup.rollup(Object.assign({
+    let inputOptions = {
       input: entryPoints,
       plugins: [
         // amd(),
@@ -481,7 +481,18 @@ class Compile extends BroccoliPlugin {
       experimentalPreserveModules: true,
       // inputRelativeDir: appAndAddons,
       shimMissingExports: true
-    }, additionalInputOptions)).then(bundle => {
+    };
+
+    for (let key of Object.keys(additionalInputOptions)) {
+      let value = additionalInputOptions[key];
+      if (key === 'plugins') {
+        inputOptions.plugins = inputOptions.plugins.concat(value);
+      } else {
+        inputOptions[key] = value;
+      }
+    }
+
+    return rollup.rollup(inputOptions).then(bundle => {
       let commonDir = getCommonDir(foundModules);
       let dir = rebaseAbsolute(appAndAddons, destDir, commonDir);
 
