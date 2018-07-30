@@ -20,7 +20,13 @@ module.exports = function(defaults) {
 
   let _rollupPackager = rollupPackager({
     useNodeModules: true,
-    externalImports: ['pretender']
+    externalImports: ['pretender'],
+    additionalRollupInputOptions: {
+      treeshake: {
+        pureExternalModules: true,
+        propertyReadSideEffects: false
+      }
+    }
   });
 
   app.package = function _package(fullTree) {
