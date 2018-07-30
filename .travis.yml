@@ -1,8 +1,9 @@
 language: node_js
 node_js:
 - '6'
-cache:
-  yarn: true
+# seems to perform better without the cache
+# cache:
+#   yarn: true
 install:
 - yarn install --non-interactive
 before_script:
