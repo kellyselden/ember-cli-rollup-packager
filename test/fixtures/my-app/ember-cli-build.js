@@ -8,10 +8,6 @@ const rollupPackager = require(
 );
 
 module.exports = function(defaults) {
-  let app = new EmberApp(defaults, {
-    // Add options here
-  });
-
   if (process.send) {
     process.send('pre package');
   }
@@ -29,19 +25,21 @@ module.exports = function(defaults) {
     }
   });
 
-  app.package = function _package(fullTree) {
-    if (process.send) {
-      process.send('package hook called');
+  let app = new EmberApp(defaults, {
+    package(fullTree) {
+      if (process.send) {
+        process.send('package hook called');
+      }
+
+      fullTree = debugTree(fullTree, 'pre');
+
+      fullTree = _rollupPackager.call(this, fullTree);
+
+      fullTree = debugTree(fullTree, 'post');
+
+      return fullTree;
     }
-
-    fullTree = debugTree(fullTree, 'pre');
-
-    fullTree = _rollupPackager.call(this, fullTree);
-
-    fullTree = debugTree(fullTree, 'post');
-
-    return fullTree;
-  };
+  });
 
   // Use `app.import` to add additional libraries to the generated
   // output files.
