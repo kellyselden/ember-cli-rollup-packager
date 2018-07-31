@@ -24,11 +24,9 @@ const rollupPackager = require('ember-cli-rollup-packager');
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
-    // Add options here
-  });
-
-  app.package = rollupPackager({
-    // additional options
+    package: rollupPackager({
+      // options
+    })
   });
 
   return app.toTree();

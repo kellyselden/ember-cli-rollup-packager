@@ -127,12 +127,7 @@ module.exports = function _rollupPackager(options = {}) {
 
     tree = debugTree(tree, 'rollup');
 
-    let sourceTrees = this._legacyPackager(tree);
-
-    tree = mergeTrees(sourceTrees, {
-      overwrite: true,
-      annotation: 'TreeMerger (_legacyPackager)'
-    });
+    tree = this._legacyPackage(tree);
 
     return tree;
   };
