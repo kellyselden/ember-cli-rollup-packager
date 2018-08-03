@@ -60,6 +60,7 @@ describe('Acceptance | index', function() {
       expect(tests).to.match(/define\(['"]my-app\/tests\/acceptance\/index-test['"]/m);
       expect(tests).to.match(/define\(['"]my-app\/tests\/helpers\/imported-from-tests['"]/m);
       expect(app).to.match(/define\(['"]my-app\/imported-from-tests['"]/m);
+      expect(app, 'doesn\'t regress templates').to.match(/define\(['"]my-app\/templates\/application['"]/m);
 
       for (let file of [
         app,
