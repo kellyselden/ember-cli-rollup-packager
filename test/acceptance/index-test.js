@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const { execSync, spawn } = require('child_process');
+const { execSync, spawn, spawnSync } = require('child_process');
 const resolve = require('resolve');
 const path = require('path');
 const chaiFiles = require('chai-files');
@@ -69,6 +69,12 @@ describe('Acceptance | index', function() {
         expect(file).to.not.match(/define\(['"]app-tree-output\//m);
         expect(file).to.not.match(/define\(['"]tests\//m);
       }
+
+      status = spawnSync('node', [relative, 'test', '--path', 'dist'], {
+        cwd: appDir
+      }).status;
+
+      expect(status).to.equal(0);
     });
   });
 });
