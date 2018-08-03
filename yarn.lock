@@ -1558,8 +1558,8 @@ rollup-plugin-node-resolve@^3.3.0:
     resolve "^1.1.6"
 
 rollup@kellyselden/rollup:
-  version "0.63.4"
-  resolved "https://codeload.github.com/kellyselden/rollup/tar.gz/6a631e2ad3677b26b516d0693f0a09da4d90a8a7"
+  version "0.63.5"
+  resolved "https://codeload.github.com/kellyselden/rollup/tar.gz/8f5efdbc5577349093d905c0b8353bb3fef2d552"
   dependencies:
     "@types/estree" "0.0.39"
     "@types/node" "*"
