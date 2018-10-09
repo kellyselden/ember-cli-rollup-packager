@@ -13,7 +13,7 @@ Make sure your app works with ember-cli master first.
 ## Installation
 
 ```
-npm install --save-dev ember-cli-rollup-packager kellyselden/ember-cli#content-funnel cross-env
+npm install --save-dev ember-cli-rollup-packager ember-cli/ember-cli#master cross-env
 ```
 
 ## Usage
