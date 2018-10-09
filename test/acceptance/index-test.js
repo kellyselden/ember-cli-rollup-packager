@@ -28,6 +28,10 @@ describe('Acceptance | index', function() {
 
     let ps = spawn('node', [relative, 'build'], {
       stdio: ['ipc', 'inherit', 'inherit'],
+      env: Object.assign({
+        EMBER_CLI_PACKAGER: 'true',
+        EMBER_CLI_DELAYED_TRANSPILATION: 'true'
+      }, process.env),
       cwd: appDir
     });
 
