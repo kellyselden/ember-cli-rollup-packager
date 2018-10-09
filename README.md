@@ -13,7 +13,7 @@ Make sure your app works with ember-cli master first.
 ## Installation
 
 ```
-npm install --save-dev ember-cli-rollup-packager kellyselden/ember-cli#content-funnel
+npm install --save-dev ember-cli-rollup-packager kellyselden/ember-cli#content-funnel cross-env
 ```
 
 ## Usage
@@ -34,11 +34,13 @@ module.exports = function(defaults) {
 ```
 
 ```js
-// .ember-cli
+// package.json
 {
-  "environment": {
-    "EMBER_CLI_PACKAGER": true,
-    "EMBER_CLI_DELAYED_TRANSPILATION": true
+  "scripts": {
+    "packager": "cross-env EMBER_CLI_PACKAGER=true EMBER_CLI_DELAYED_TRANSPILATION=true",
+    "prebuild": "npm run packager",
+    "prestart": "npm run packager",
+    "pretest": "npm run packager"
   }
 }
 ```
